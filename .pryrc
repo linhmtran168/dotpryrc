@@ -11,7 +11,7 @@ require '~/.pryrc-helpers'
 ___ = PryrcHelpers
 
 # what are the gems you use daily in REPL? Put them in ___daily_gems
-___daily_gems  = %w[benchmark yaml json sqlite3]
+___daily_gems  = %w[benchmark yaml json]
 
 # ___pry_gems is for loading vendor plugins for Pry.
 ___pry_gems = %w[awesome_print hirb sketches debugger pry-debugger pry-stack_explorer]
@@ -101,13 +101,6 @@ if defined? AwesomePrint
   ## Evaluated result display inline
   # Pry.config.print = lambda { |output, value| output.print "\e[1A\e[18C # => "; output.puts value.inspect }
 
-  ## if in bundler, break out, so awesome print doesn't have to be in Gemfile
-  if defined? Bundler
-    Gem.post_reset_hooks.reject! { |hook| hook.source_location.first =~ %r{/bundler/} }
-    Gem::Specification.reset
-    load 'rubygems/custom_require.rb'
-  end
-
   ## awesome_print config for Minitest.
   if defined? Minitest
     module Minitest::Assertions
@@ -129,7 +122,7 @@ Pry.config.history.file = "~/.irb_history"
 
 # Editors
 #   available options: vim, mvim, mate, emacsclient...etc.
-Pry.config.editor = "subl"
+Pry.config.editor = "vim"
 
 # ==============================
 #   Pry Prompt
@@ -233,7 +226,7 @@ if defined?(Rails)
   begin
     require "rails/console/app"
     require "rails/console/helpers"
-  rescue LoadError => e
+  rescue LoadError
     require "console_app"
     require "console_with_helpers"
   end
