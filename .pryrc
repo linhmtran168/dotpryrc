@@ -14,7 +14,7 @@ ___ = PryrcHelpers
 ___daily_gems  = %w[benchmark yaml json]
 
 # ___pry_gems is for loading vendor plugins for Pry.
-___pry_gems = %w[awesome_print hirb sketches debugger pry-debugger pry-stack_explorer]
+___pry_gems = %w[awesome_print hirb sketches pry-byebug pry-coolline pry-stack_explorer]
 
 ___daily_gems.___require_gems
 ___pry_gems.___require_gems
