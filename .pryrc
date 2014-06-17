@@ -14,7 +14,7 @@ ___ = PryrcHelpers
 ___daily_gems  = %w[benchmark yaml json]
 
 # ___pry_gems is for loading vendor plugins for Pry.
-___pry_gems = %w[awesome_print hirb sketches pry-byebug pry-coolline pry-stack_explorer]
+___pry_gems = %w[awesome_print hirb sketches pry-coolline]
 
 ___daily_gems.___require_gems
 ___pry_gems.___require_gems
@@ -117,9 +117,6 @@ end # End of AwesomePrint
 #   Pry Configurations
 # ==============================
 
-# History (Use one history file)
-Pry.config.history.file = "~/.irb_history"
-
 # Editors
 #   available options: vim, mvim, mate, emacsclient...etc.
 Pry.config.editor = "vim"
@@ -147,13 +144,6 @@ Pry.config.exception_handler = proc do |output, exception, _|
   puts ___.colorize "from #{exception.backtrace.first}", 31
 end
 
-# Handy hotkeys for debugging!
-if defined?(PryDebugger)
-  Pry.config.commands.alias_command 'c', 'continue'
-  Pry.config.commands.alias_command 's', 'step'
-  Pry.config.commands.alias_command 'n', 'next'
-  Pry.config.commands.alias_command 'f', 'finish'
-end
 
 # ==============================
 #   Customized hotkeys for Pry
@@ -226,6 +216,7 @@ if defined?(Rails)
   begin
     require "rails/console/app"
     require "rails/console/helpers"
+    extend Rails::ConsoleMethods if Rails.version.to_f >= 3.2
   rescue LoadError
     require "console_app"
     require "console_with_helpers"
@@ -236,6 +227,10 @@ end
 #   Welcome to Pry
 # ==============================
 Pry.active_sessions = 0
+
+Pry.config.hooks.add_hook(:when_started, :initialize) do
+  puts 'Hello Master!'
+end
 
 Pry.config.hooks.add_hook(:before_session, :welcome) do
     if Pry.active_sessions.zero?
